@@ -619,8 +619,8 @@ html.menu-open { overflow: hidden; }
 }
 .route-rider svg { width: 28px; height: 28px; fill: none; stroke: #2a1300; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
 
-.sites { position: relative; display: grid; gap: clamp(28px, 4vw, 48px); }
-.site { display: grid; grid-template-columns: 1fr 72px 1fr; align-items: center; }
+.sites { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(28px, 4vw, 48px); }
+.site { display: grid; grid-template-columns: minmax(0, 1fr) 72px minmax(0, 1fr); align-items: center; }
 .site .pin { grid-column: 2; grid-row: 1; justify-self: center; position: relative; z-index: 2; }
 .site .site-card { grid-row: 1; grid-column: 1; }
 .site:nth-child(even) .site-card { grid-column: 3; }
@@ -631,7 +631,7 @@ html.menu-open { overflow: hidden; }
   box-shadow: 0 0 0 6px var(--night-0);
 }
 .site-card {
-  display: grid; gap: 14px; padding: 26px 28px; border-radius: 24px;
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; min-width: 0; padding: 26px 28px; border-radius: 24px;
   background: linear-gradient(180deg, var(--glass-2), rgba(12, 16, 46, .7));
   border: 1px solid var(--line);
   transition: border-color .4s, translate .6s var(--ease);
@@ -645,7 +645,7 @@ html.menu-open { overflow: hidden; }
 .site-card strong { color: #fff; }
 .site-links { display: flex; flex-wrap: wrap; gap: 8px; }
 .site-links a {
-  display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 999px;
+  display: inline-block; max-width: 100%; overflow-wrap: anywhere; padding: 7px 14px; border-radius: 999px;
   font-family: var(--mono); font-size: .76rem; color: var(--ember-2);
   border: 1px solid rgba(255, 196, 107, .28); background: rgba(255, 196, 107, .06);
   transition: background .25s, color .25s, border-color .25s;
@@ -866,7 +866,7 @@ html.menu-open { overflow: hidden; }
   .menu-btn { display: block; }
   .nav-status { display: none; }
   .hero-route { display: none; }
-  .site { grid-template-columns: 44px 1fr; gap: 0 16px; align-items: start; }
+  .site { grid-template-columns: 44px minmax(0, 1fr); gap: 0 16px; align-items: start; }
   .site .pin { grid-column: 1; justify-self: start; margin-top: 22px; }
   .site .site-card, .site:nth-child(even) .site-card { grid-column: 2; }
   .route-line { left: 22px; }
@@ -889,6 +889,7 @@ html.menu-open { overflow: hidden; }
   .permit-face { width: 68px; height: 68px; }
   .stats li { padding: 14px 16px; }
   .signal-links { grid-template-columns: 1fr; }
+  .site-card { padding: 22px 20px; }
   .signal-links a { padding: 14px; }
   .chibi { width: 86px; height: 132px; }
   .chibi-smoke { height: 124px; }
