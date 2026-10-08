@@ -1,0 +1,21 @@
+# about.ryukura.biz.id — Apache
+
+# Block hidden files and folders (.claude, .git, .gitignore, .env, .htaccess …).
+# Answers with a plain 404 so it doesn't reveal whether they exist.
+# /.well-known/ stays reachable for SSL certificates (ACME) and security.txt.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule "(^|/)\.(?!well-known(/|$))" - [R=404,L]
+</IfModule>
+
+# Fallback for servers without mod_rewrite.
+<IfModule !mod_rewrite.c>
+  <IfModule mod_alias.c>
+    RedirectMatch 404 "/\.(?!well-known(/|$))"
+  </IfModule>
+</IfModule>
+
+# Optional: stop Apache listing folder contents (e.g. /assets/img/).
+# Uncomment if the host allows "Options" in .htaccess; if it doesn't,
+# this line causes a 500 error, so test after enabling.
+# Options -Indexes
