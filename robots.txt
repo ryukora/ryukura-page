@@ -1,0 +1,5 @@
+# Ryukura △ Solo Camp — everyone is welcome at this campsite.
+User-agent: *
+Allow: /
+
+Sitemap: https://about.ryukura.biz.id/sitemap.xml

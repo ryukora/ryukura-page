@@ -26,10 +26,14 @@ Plain static site with no build step and no dependencies.
 ```
 index.html
 favicon.ico
+robots.txt
+sitemap.xml
+site.webmanifest
+eaa6ee8cf50535af48afce7cfa6e2a02.txt   IndexNow key (keep it at the site root)
 assets/
   css/style.css
   js/main.js
-  img/            optimized WebP / PNG art
+  img/            optimized WebP / PNG art, icons, og-card.jpg
 ```
 
 Fonts come from Google Fonts: Bricolage Grotesque, JetBrains Mono and Zen Maru Gothic.
@@ -44,7 +48,7 @@ Then open <http://localhost:8000>.
 
 ## Deploy
 
-Upload `index.html`, `favicon.ico` and `assets/` to any static host. Nothing else is needed.
+Upload everything in the repo except `README.md` to the root of any static host. Everything is plain files, nothing to build.
 
 ## Editing content
 
@@ -56,6 +60,36 @@ All text is in `index.html`. A few things are worth knowing:
 - **HUD markers:** positioned with `--x` / `--y` as percentages of the artwork, so they stay pinned to the same spot at any screen size.
 
 Accessibility: respects `prefers-reduced-motion` (no intro, meteors or parallax), works without JavaScript, and the layout holds down to 320px wide.
+
+## SEO and link previews
+
+Already in place:
+
+- **Search:** descriptive title and description, canonical URL, `robots` meta allowing large image previews, `robots.txt`, and `sitemap.xml` (with image entries).
+- **Structured data:** JSON-LD `WebSite` + `ProfilePage` + `Person` (job title, location, skills, and `sameAs` links to GitHub, X, Steam and the homepage).
+- **Link previews:** Open Graph and Twitter Card tags with a 1200×630 card (`assets/img/og-card.jpg`). This covers Facebook, Discord, X, LinkedIn, WhatsApp, Telegram and Slack. `theme-color` sets the orange accent bar on Discord embeds.
+- **Icons:** `favicon.ico`, 48px and 192px PNG icons (Google shows these in results), Apple touch icon, and a web manifest with a maskable icon.
+- **Identity:** `rel="me"` links to GitHub and X.
+
+### After deploying
+
+1. **Google:** add the site in [Search Console](https://search.google.com/search-console). A *Domain* property verified by a DNS TXT record on `ryukura.biz.id` covers every subdomain. Submit `https://about.ryukura.biz.id/sitemap.xml`, then use *URL Inspection → Request indexing*.
+2. **Bing:** in [Bing Webmaster Tools](https://www.bing.com/webmasters), choose *Import from Google Search Console* (or verify the same way) and submit the sitemap. DuckDuckGo, Yahoo and Ecosia get most of their results from Bing, so this covers them too.
+3. **IndexNow** (Bing, Yandex, Seznam, Naver): ping it after each update so they recrawl straight away.
+
+   ```bash
+   curl "https://api.indexnow.org/indexnow?url=https://about.ryukura.biz.id/&key=eaa6ee8cf50535af48afce7cfa6e2a02"
+   ```
+
+4. **Check the results:**
+   - [Rich Results Test](https://search.google.com/test/rich-results) and the [Schema Markup Validator](https://validator.schema.org/) for structured data.
+   - [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/) and [LinkedIn Post Inspector](https://www.linkedin.com/post-inspector/) for previews. Both also force those sites to re-fetch the page.
+   - Discord and X show the preview when you paste the link into a message or post.
+
+### When content changes
+
+- Update `dateModified` in the JSON-LD and `<lastmod>` in `sitemap.xml`, then ping IndexNow.
+- Social sites cache preview images for days. If you replace the card, give it a new filename (e.g. `og-card-2.jpg`) and update the `og:image` / `twitter:image` tags.
 
 ## Credits
 
