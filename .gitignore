@@ -1,0 +1,19 @@
+# Reference art (large, not deployed)
+/rin shima/
+/rin shima.zip
+
+# Local tooling
+.claude/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+.vscode/
+.idea/
+
+# Python (local http.server)
+__pycache__/
+*.pyc

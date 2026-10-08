@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Ryukura △ Solo Camp</title>
+  <meta name="description" content="Ryukura — IT enthusiast and home lab architect from Depok, Indonesia. Networking, Proxmox, Docker, Grafana and a lot of quiet, Shima Rin style.">
+  <meta name="theme-color" content="#05081a">
+  <meta name="color-scheme" content="dark">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://about.ryukura.biz.id/">
+  <meta property="og:title" content="Ryukura △ Solo Camp">
+  <meta property="og:description" content="Quiet person. Loud uptime. Home lab architect from Depok, Indonesia.">
+  <meta property="og:image" content="https://about.ryukura.biz.id/assets/img/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@ryukora">
+
+  <link rel="icon" type="image/png" href="assets/img/rin-face-64.png">
+  <link rel="apple-touch-icon" href="assets/img/rin-face-192.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=JetBrains+Mono:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
+
+  <link rel="preload" as="image" href="assets/img/hero-dusk.webp" imagesrcset="assets/img/hero-dusk-1200.webp 1200w, assets/img/hero-dusk.webp 2400w" imagesizes="max(100vw, 134vh)" media="(min-aspect-ratio: 4/5)">
+  <link rel="preload" as="image" href="assets/img/hero-ride.webp" media="(max-aspect-ratio: 4/5)">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <script>
+    (function () {
+      var d = document.documentElement;
+      d.className = d.className.replace('no-js', 'js');
+      try {
+        if (sessionStorage.getItem('rk-intro') || matchMedia('(prefers-reduced-motion: reduce)').matches) d.classList.add('no-intro');
+      } catch (e) { d.classList.add('no-intro'); }
+    })();
+  </script>
+  <script defer src="assets/js/main.js"></script>
+</head>
+<body>
+  <a class="skip" href="#basecamp">Skip to content</a>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="gIco" gradientUnits="userSpaceOnUse" x1="4" y1="4" x2="60" y2="60">
+        <stop offset="0" stop-color="#ffd27a"/><stop offset=".5" stop-color="#ff8a5c"/><stop offset="1" stop-color="#b99bff"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- ░░ Intro: pitching the tent ░░ -->
+  <div class="intro" id="intro" aria-hidden="true">
+    <div class="intro-panel intro-panel--top"></div>
+    <div class="intro-panel intro-panel--bottom"></div>
+    <div class="intro-inner">
+      <svg class="intro-tri" viewBox="0 0 120 108" fill="none">
+        <defs>
+          <linearGradient id="introFire" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0" stop-color="#ff6a3d"/><stop offset=".6" stop-color="#ffa94d"/><stop offset="1" stop-color="#ffe08a"/>
+          </linearGradient>
+        </defs>
+        <path class="intro-tri-out" d="M60 6 L114 102 H6 Z"/>
+        <path class="intro-tri-in" d="M60 52 L80 102 H40 Z"/>
+        <path class="intro-flame" d="M60 70c-6 7-8 14-4 20 2 3 6 4 8 2 4-4 3-10 0-14 0 4-2 6-3 6 1-5 0-10-1-14z" fill="url(#introFire)"/>
+      </svg>
+      <p class="intro-word" aria-hidden="true"><span>R</span><span>Y</span><span>U</span><span>K</span><span>U</span><span>R</span><span>A</span></p>
+      <p class="intro-log mono"><span class="intro-caret">&gt;</span> <span id="introLog">checking the weather…</span></p>
+      <div class="intro-bar"><i></i></div>
+    </div>
+    <button class="intro-skip mono" type="button">skip intro ↵</button>
+  </div>
+
+  <div class="sky" aria-hidden="true"></div>
+  <canvas class="stars" id="stars" aria-hidden="true"></canvas>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="progress" aria-hidden="true"><i id="progress"></i></div>
+
+  <!-- ░░ Navigation ░░ -->
+  <header class="nav" id="nav">
+    <a class="brand" href="#top" aria-label="Ryukura, back to top">
+      <svg class="brand-tri" viewBox="0 0 32 30" aria-hidden="true"><path d="M16 3 L29.5 27 H2.5 Z" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linejoin="round"/><path d="M16 14.5 L21 27 H11 Z" fill="currentColor"/></svg>
+      <span>Ryukura</span>
+    </a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#basecamp">Basecamp</a>
+      <a href="#loadout">Loadout</a>
+      <a href="#trail">Trail log</a>
+      <a href="#rin">Rin</a>
+      <a href="#signals">Signals</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="amb" id="ambience" type="button" aria-pressed="false" title="Campfire ambience (sound)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5c.6 3.2-1.6 4.8-3.2 6.8C7.3 11.2 6.5 13 6.5 15a5.5 5.5 0 0 0 11 0c0-2.1-.9-3.9-2.2-5.3-.2 1.6-1 2.6-2 3 .6-3.6-.4-7.6-1.3-10.2z" fill="currentColor"/></svg>
+        <span class="amb-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="sr-only">Campfire ambience</span>
+      </button>
+      <a class="btn btn-ember btn-sm nav-status" href="https://status.ryukura.biz.id/" target="_blank" rel="noopener">
+        <span class="pulse-dot" aria-hidden="true"></span>Status
+      </a>
+      <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="mobileMenu">
+        <span class="sr-only">Menu</span><i></i><i></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu" hidden>
+    <nav aria-label="Sections (mobile)">
+      <a href="#basecamp"><small class="mono">01</small>Basecamp</a>
+      <a href="#loadout"><small class="mono">02</small>Loadout</a>
+      <a href="#trail"><small class="mono">03</small>Trail log</a>
+      <a href="#rin"><small class="mono">04</small>Rin</a>
+      <a href="#signals"><small class="mono">05</small>Signals</a>
+    </nav>
+    <p class="jp mobile-menu-jp" aria-hidden="true">ソロキャン△</p>
+  </div>
+
+  <main id="top">
+
+    <!-- ░░ HERO — dusk ░░ -->
+    <section class="hero" id="hero" aria-label="Introduction">
+      <div class="scene hero-scene">
+        <div class="scene-box" id="heroBox">
+          <picture>
+            <source media="(max-aspect-ratio: 4/5)" srcset="assets/img/hero-ride.webp">
+            <img src="assets/img/hero-dusk.webp" srcset="assets/img/hero-dusk-1200.webp 1200w, assets/img/hero-dusk.webp 2400w" sizes="max(100vw, 134vh)" alt="Shima Rin standing in the cold at dusk, striped scarf pulled up, her breath visible in the air" fetchpriority="high" decoding="async">
+          </picture>
+          <span class="breath breath--1" aria-hidden="true"></span>
+          <span class="breath breath--2" aria-hidden="true"></span>
+          <span class="headlight" aria-hidden="true"></span>
+
+          <div class="hud hud--dusk" style="--x:33%;--y:17%;--d:.2s" aria-hidden="true">
+            <span class="hud-ret"></span><span class="hud-tag hud-tag--left"><b>Operator</b><small>ryukura · aura 100%</small></span>
+          </div>
+          <div class="hud hud--ride" style="--x:50%;--y:34%;--d:.2s" aria-hidden="true">
+            <span class="hud-ret"></span><span class="hud-tag"><b>Operator</b><small>ryukura · en route</small></span>
+          </div>
+          <div class="hud hud--ride hud--minor" style="--x:50%;--y:52.5%;--d:.5s" aria-hidden="true">
+            <span class="hud-ret hud-ret--sm"></span><span class="hud-tag hud-tag--left"><b>Headlight</b><small>tx / rx</small></span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-shade" aria-hidden="true"></div>
+      <div class="nightfall" id="nightfall" aria-hidden="true"></div>
+
+      <div class="hero-content" id="heroContent">
+        <p class="chip mono" data-hero-rise style="--i:0">
+          <span class="dot" aria-hidden="true"></span>
+          <span>Depok, ID</span><span class="chip-sep" aria-hidden="true">·</span><time id="clock">--:--</time>&nbsp;WIB<span class="chip-sep" aria-hidden="true">·</span><span id="clockMood">campfire hours</span>
+        </p>
+        <h1 class="hero-title" aria-label="Ryukura">
+          <span class="hero-title-row" aria-hidden="true"><span style="--i:0">R</span><span style="--i:1">Y</span><span style="--i:2">U</span><span style="--i:3">K</span><span style="--i:4">U</span><span style="--i:5">R</span><span style="--i:6">A</span></span>
+        </h1>
+        <p class="hero-tag" data-hero-rise style="--i:2">Quiet person.<br><span class="grad">Loud uptime.</span></p>
+        <p class="hero-sub" data-hero-rise style="--i:3">IT enthusiast &amp; home lab architect from Depok, Indonesia. I build networks, containers and dashboards the way Rin camps — solo, unhurried, and properly.</p>
+        <div class="hero-cta" data-hero-rise style="--i:4">
+          <a class="btn btn-ember" href="#basecamp">
+            <svg viewBox="0 0 32 30" aria-hidden="true"><path d="M16 3 L29.5 27 H2.5 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M16 14.5 L21 27 H11 Z" fill="currentColor"/></svg>
+            Explore the campsite
+          </a>
+          <a class="btn btn-ghost" href="https://ryukura.biz.id/" target="_blank" rel="noopener">Homepage <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+
+      <p class="hero-vert jp" aria-hidden="true">志摩リン推し<span>·</span>ソロキャン△</p>
+      <div class="hero-foot mono" aria-hidden="true">
+        <span class="scroll-cue">Scroll to wander <i></i></span>
+        <span class="hero-route">Route · Depok −6.40° → 本栖湖 35.46° · 5,714 km</span>
+      </div>
+    </section>
+
+    <!-- ░░ 01 BASECAMP ░░ -->
+    <section class="section basecamp" id="basecamp" aria-labelledby="basecamp-title">
+      <div class="wrap basecamp-grid">
+        <div class="collage">
+          <figure class="photo" data-reveal>
+            <img src="assets/img/lua.webp" width="1400" height="788" alt="Shima Rin in her striped scarf, calmly reading a copy of Programming in Lua" loading="lazy" decoding="async">
+            <figcaption class="mono">Camp rule #1 — always pack the documentation.</figcaption>
+          </figure>
+
+          <article class="permit" data-reveal style="--d:.15s" aria-label="Camper permit">
+            <div class="scarf-band" aria-hidden="true"></div>
+            <header class="permit-head mono">
+              <span>Solo camper permit</span>
+              <span>№ 0509-2007</span>
+            </header>
+            <div class="permit-body">
+              <div class="permit-face">
+                <img src="assets/img/rin-face-192.png" width="96" height="96" alt="" aria-hidden="true">
+              </div>
+              <dl class="permit-fields">
+                <div><dt class="mono">Name</dt><dd>Ryukura</dd></div>
+                <div><dt class="mono">Age</dt><dd><span id="age">19</span> years old</dd></div>
+                <div><dt class="mono">Born</dt><dd id="birthday" data-date="2007-05-09">9 May 2007</dd></div>
+                <div><dt class="mono">Origin</dt><dd>Depok, Indonesia</dd></div>
+                <div class="wide"><dt class="mono">Class</dt><dd>Home Lab Architect</dd></div>
+              </dl>
+            </div>
+            <footer class="permit-foot">
+              <span class="barcode" aria-hidden="true"></span>
+              <span class="stamp jp" aria-hidden="true">ソロ<br>キャン</span>
+            </footer>
+          </article>
+        </div>
+
+        <div class="basecamp-copy">
+          <p class="eyebrow mono" data-reveal><span class="eyebrow-scarf" aria-hidden="true"></span>01 — Basecamp</p>
+          <h2 class="h2" id="basecamp-title" data-reveal>A home lab, pitched like a <span class="grad">solo camp.</span></h2>
+          <p class="lead" data-reveal>I'm Ryukura — a passionate IT enthusiast who'd rather build the internet than just scroll it. Networking, self-hosting and home labs are my kind of campsite.</p>
+          <p data-reveal>My lab, <strong>Ryulabs</strong>, runs on Proxmox and Docker, with Prometheus and Grafana keeping watch through the night. Like one of Rin's trips, it's mostly a one-person operation: planned quietly, packed light, documented, and left running while I go read something by the fire.</p>
+          <ul class="stats" data-reveal>
+            <li><b id="ageStat">19</b><span class="mono">years around the sun</span></li>
+            <li><b>6</b><span class="mono">tools in the pack</span></li>
+            <li><b>v4<i>/</i>v6</b><span class="mono">dual-stack networking</span></li>
+            <li><b>2024</b><span class="mono">Ryulabs online since</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ Marquee ░░ -->
+    <div class="marquee" aria-hidden="true">
+      <div class="scarf-band scarf-band--thick"></div>
+      <div class="mq-row">
+        <div class="mq-track">
+          <span>Proxmox</span><b>△</b><span>MikroTik</span><b>△</b><span>OpenWRT</span><b>△</b><span>Docker</span><b>△</b><span>Grafana</span><b>△</b><span>Prometheus</span><b>△</b><span>Linux</span><b>△</b><span>IPv6</span><b>△</b>
+        </div>
+        <div class="mq-track">
+          <span>Proxmox</span><b>△</b><span>MikroTik</span><b>△</b><span>OpenWRT</span><b>△</b><span>Docker</span><b>△</b><span>Grafana</span><b>△</b><span>Prometheus</span><b>△</b><span>Linux</span><b>△</b><span>IPv6</span><b>△</b>
+        </div>
+      </div>
+      <div class="mq-row mq-row--rev">
+        <div class="mq-track">
+          <span>Self-hosted</span><b>✦</b><span class="jp">ソロキャン</span><b>✦</b><span>Home lab</span><b>✦</b><span class="jp">志摩リン</span><b>✦</b><span>Dual-stack</span><b>✦</b><span class="jp">ゆるっと</span><b>✦</b>
+        </div>
+        <div class="mq-track">
+          <span>Self-hosted</span><b>✦</b><span class="jp">ソロキャン</span><b>✦</b><span>Home lab</span><b>✦</b><span class="jp">志摩リン</span><b>✦</b><span>Dual-stack</span><b>✦</b><span class="jp">ゆるっと</span><b>✦</b>
+        </div>
+      </div>
+      <div class="scarf-band scarf-band--thick"></div>
+    </div>
+
+    <!-- ░░ 02 LOADOUT ░░ -->
+    <section class="section loadout" id="loadout" aria-labelledby="loadout-title">
+      <div class="wrap">
+        <header class="sec-head">
+          <p class="eyebrow mono" data-reveal><span class="eyebrow-scarf" aria-hidden="true"></span>02 — The loadout</p>
+          <h2 class="h2" id="loadout-title" data-reveal>Everything in <span class="grad">the pack.</span></h2>
+          <p class="sec-sub" data-reveal>Six pieces of gear I trust in the field, with honest self-ratings out of ten.</p>
+        </header>
+
+        <div class="gear-grid">
+          <article class="gear" data-reveal data-level="9">
+            <div class="gear-top">
+              <span class="mono gear-no">Gear 01 · <em>The bento</em></span>
+              <svg class="gear-ico" viewBox="0 0 64 64" aria-hidden="true"><rect x="8" y="30" width="48" height="24" rx="5"/><path d="M8 41h48M25 30v24M40 30v24"/><rect x="15" y="12" width="26" height="18" rx="4"/><path d="M15 21h26M28 12v18"/><path d="M47 26c3-3 4-7 2-11M53 24c2-3 2-6 0-9"/></svg>
+            </div>
+            <h3>Docker</h3>
+            <p>Experienced in containerization and deployment. Everything packed into neat little boxes, like Nadeshiko's lunch.</p>
+            <div class="meter" role="meter" aria-label="Docker skill level" aria-valuemin="0" aria-valuemax="10" aria-valuenow="9">
+              <span class="pips" aria-hidden="true"></span><b>9<small>/10</small></b>
+            </div>
+            <footer class="gear-foot mono"><span>Ryulabs</span><span>2024 — present</span></footer>
+          </article>
+
+          <article class="gear" data-reveal data-level="9" style="--d:.08s">
+            <div class="gear-top">
+              <span class="mono gear-no">Gear 02 · <em>The multi-tool</em></span>
+              <svg class="gear-ico" viewBox="0 0 64 64" aria-hidden="true"><path d="M10 34h36a7 7 0 0 1 0 14H10a7 7 0 0 1 0-14z"/><path d="M24 34L46 13l5 4-17 17"/><path d="M13 37.5l4 3.5-4 3.5M21 44h7"/><circle cx="46" cy="41" r="2.5"/></svg>
+            </div>
+            <h3>Linux <span class="h3-note">basic administration</span></h3>
+            <p>Managing users, permissions, system processes, and basic shell scripting. The tool that fixes every other tool.</p>
+            <div class="meter" role="meter" aria-label="Linux skill level" aria-valuemin="0" aria-valuemax="10" aria-valuenow="9">
+              <span class="pips" aria-hidden="true"></span><b>9<small>/10</small></b>
+            </div>
+            <footer class="gear-foot mono"><span>Ryukura · Ryulabs</span><span>2024 — present</span></footer>
+          </article>
+
+          <article class="gear" data-reveal data-level="9" style="--d:.16s">
+            <div class="gear-top">
+              <span class="mono gear-no">Gear 03 · <em>The lantern</em></span>
+              <svg class="gear-ico" viewBox="0 0 64 64" aria-hidden="true"><path d="M26 12h12M29 12V7h6v5"/><path d="M21 12h22l-3 8H24z"/><rect x="21" y="20" width="22" height="28" rx="5"/><path d="M20 48h24v7H20z"/><path class="ico-flame" d="M32 27c-4 4-5 9-2 12 1 1 3 1 4 0 3-3 2-8-2-12z"/></svg>
+            </div>
+            <h3>Grafana &amp; Prometheus</h3>
+            <p>Monitoring, alerting, and data visualization. A light that stays on all night so nothing creeps up in the dark.</p>
+            <div class="meter" role="meter" aria-label="Grafana and Prometheus skill level" aria-valuemin="0" aria-valuemax="10" aria-valuenow="9">
+              <span class="pips" aria-hidden="true"></span><b>9<small>/10</small></b>
+            </div>
+            <footer class="gear-foot mono"><span>Ryukura · Ryulabs</span><span>2024 — present</span></footer>
+          </article>
+
+          <article class="gear" data-reveal data-level="8">
+            <div class="gear-top">
+              <span class="mono gear-no">Gear 04 · <em>The tent</em></span>
+              <svg class="gear-ico" viewBox="0 0 64 64" aria-hidden="true"><path d="M7 52L32 11l25 41z"/><path d="M32 11v6M23 52l9-16 9 16"/><path d="M3 52h58"/><path d="M10 52l-4 4M54 52l4 4"/></svg>
+            </div>
+            <h3>Proxmox</h3>
+            <p>Virtualization and server management. One sturdy shelter, many VMs sleeping soundly inside.</p>
+            <div class="meter" role="meter" aria-label="Proxmox skill level" aria-valuemin="0" aria-valuemax="10" aria-valuenow="8">
+              <span class="pips" aria-hidden="true"></span><b>8<small>/10</small></b>
+            </div>
+            <footer class="gear-foot mono"><span>Ryukura · Ryulabs</span><span class="wip">In development</span></footer>
+          </article>
+
+          <article class="gear" data-reveal data-level="8" style="--d:.08s">
+            <div class="gear-top">
+              <span class="mono gear-no">Gear 05 · <em>The scooter</em></span>
+              <svg class="gear-ico" viewBox="0 0 64 64" aria-hidden="true"><circle cx="15" cy="47" r="6.5"/><circle cx="50" cy="47" r="6.5"/><path d="M44 14h8M48 14l-5 23"/><path d="M43 37c5 0 8 4 8 9"/><path d="M8.5 44c0-7 5-11 12-11h11l3.5 8h7"/><path d="M17 33v-5h13v5"/><path d="M52 21h3"/></svg>
+            </div>
+            <h3>MikroTik &amp; OpenWRT</h3>
+            <p>Routers and networking fundamentals. Gets every packet where it's going, one quiet back road at a time.</p>
+            <div class="meter" role="meter" aria-label="MikroTik, OpenWRT and networking skill level" aria-valuemin="0" aria-valuemax="10" aria-valuenow="8">
+              <span class="pips" aria-hidden="true"></span><b>8<small>/10</small></b>
+            </div>
+            <footer class="gear-foot mono"><span>Ryukura</span><span class="wip">In development</span></footer>
+          </article>
+
+          <article class="gear" data-reveal data-level="8" style="--d:.16s">
+            <div class="gear-top">
+              <span class="mono gear-no">Gear 06 · <em>The trail map</em></span>
+              <svg class="gear-ico" viewBox="0 0 64 64" aria-hidden="true"><path d="M7 15l15-6 20 6 15-6v40l-15 6-20-6-15 6z"/><path d="M22 9v40M42 15v40"/><path class="ico-route" d="M12 42c5-1 6-9 12-11s9 4 14 2 6-10 12-12"/><circle cx="50" cy="21" r="2.6"/></svg>
+            </div>
+            <h3>IPv4 &amp; IPv6 networking</h3>
+            <p>Network addressing, routing, and configuration for both protocols. Knows every route, old roads and new.</p>
+            <div class="meter" role="meter" aria-label="IPv4 and IPv6 networking skill level" aria-valuemin="0" aria-valuemax="10" aria-valuenow="8">
+              <span class="pips" aria-hidden="true"></span><b>8<small>/10</small></b>
+            </div>
+            <footer class="gear-foot mono"><span>Ryukura · Ryulabs</span><span>2024 — present</span></footer>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ Interlude — night at Lake Motosu ░░ -->
+    <section class="night" id="night" aria-label="Interlude: a night at Lake Motosu">
+      <div class="scene night-scene">
+        <div class="scene-box">
+          <img id="nightImg" src="assets/img/night-lake-still.webp" data-anim="assets/img/night-lake.webp" width="1080" height="608" alt="Rin camping alone on the shore of Lake Motosu at night, Mt. Fuji glowing under the moon, a small campfire beside her tent" loading="lazy" decoding="async">
+          <div class="hud" style="--x:36.2%;--y:31%;--d:.1s" aria-hidden="true"><span class="hud-ret"></span><span class="hud-tag"><b>Fuji-san</b><small>3,776 m · uplink</small></span></div>
+          <div class="hud hud--minor" style="--x:19%;--y:66%;--d:.35s" aria-hidden="true"><span class="hud-ret hud-ret--sm"></span><span class="hud-tag"><b>本栖湖</b><small>lake motosu · ::1</small></span></div>
+          <div class="hud" style="--x:35.4%;--y:80%;--d:.6s" aria-hidden="true"><span class="hud-ret hud-ret--sm"></span><span class="hud-tag hud-tag--left"><b>Grafana</b><small>keeping watch</small></span></div>
+          <div class="hud" style="--x:46.4%;--y:70%;--d:.85s" aria-hidden="true"><span class="hud-ret"></span><span class="hud-tag hud-tag--up"><b>Ryukura</b><small>afk · camping</small></span></div>
+          <div class="hud" style="--x:64%;--y:67%;--d:1.1s" aria-hidden="true"><span class="hud-ret"></span><span class="hud-tag"><b>Proxmox</b><small>tent-01 · running</small></span></div>
+          <div class="hud hud--minor" style="--x:80.5%;--y:74%;--d:1.35s" aria-hidden="true"><span class="hud-ret hud-ret--sm"></span><span class="hud-tag hud-tag--left"><b>Router</b><small>parked · dual-stack</small></span></div>
+        </div>
+      </div>
+      <div class="night-shade" aria-hidden="true"></div>
+      <p class="night-jp jp" data-reveal lang="ja">ソロキャンは、<br>いいぞ。</p>
+      <p class="night-en" data-reveal><span class="mono">// translation</span>Solo camping is good, actually.<br>So is self-hosting.</p>
+    </section>
+
+    <!-- ░░ 03 TRAIL LOG ░░ -->
+    <section class="section trail" id="trail" aria-labelledby="trail-title">
+      <div class="wrap">
+        <header class="sec-head">
+          <p class="eyebrow mono" data-reveal><span class="eyebrow-scarf" aria-hidden="true"></span>03 — Trail log</p>
+          <h2 class="h2" id="trail-title" data-reveal>Campsites I keep <span class="grad">running.</span></h2>
+          <p class="sec-sub" data-reveal>Projects and services out in the wild. Every pin is real, so go pay them a visit.</p>
+        </header>
+
+        <div class="route" id="route">
+          <div class="route-line" aria-hidden="true"><i id="routeFill"></i>
+            <span class="route-rider" id="routeRider">
+              <svg viewBox="0 0 64 64"><circle cx="15" cy="47" r="6.5"/><circle cx="50" cy="47" r="6.5"/><path d="M44 14h8M48 14l-5 23"/><path d="M43 37c5 0 8 4 8 9"/><path d="M8.5 44c0-7 5-11 12-11h11l3.5 8h7"/><path d="M17 33v-5h13v5"/></svg>
+            </span>
+          </div>
+          <ol class="sites">
+            <li class="site" data-reveal>
+              <span class="pin mono" aria-hidden="true">01</span>
+              <article class="site-card">
+                <header class="site-head mono"><span>Site 01 · Open source</span><span class="stars-badge" data-repo="bebasid/bebasid" hidden>★ <b>—</b></span></header>
+                <h3>BEBASID</h3>
+                <p>An open hosts file that helps people reach websites that have been blocked, plus <strong>BebasDNS</strong>, a neutral public DNS for browsing safely and freely.</p>
+                <div class="site-links">
+                  <a href="https://bebasid.com/" target="_blank" rel="noopener">bebasid.com <span aria-hidden="true">↗</span></a>
+                  <a href="https://github.com/bebasid/bebasid" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
+                  <a href="https://github.com/bebasid/bebasdns" target="_blank" rel="noopener">BebasDNS <span aria-hidden="true">↗</span></a>
+                </div>
+              </article>
+            </li>
+            <li class="site" data-reveal>
+              <span class="pin mono" aria-hidden="true">02</span>
+              <article class="site-card">
+                <header class="site-head mono"><span>Site 02 · Community DNS</span><span>South East Asia</span></header>
+                <h3>ΕΛΠΙΣ DNS</h3>
+                <p>Free, encrypted DNS for South East Asia, run by the community and for the community. I host one of its resolvers, named after a certain drummer.</p>
+                <div class="copy-row">
+                  <code>nijika.ryukura.biz.id</code>
+                  <button class="copy mono" type="button" data-copy="nijika.ryukura.biz.id">Copy</button>
+                </div>
+                <div class="site-links">
+                  <a href="https://elpis.violetnetworks.xyz/" target="_blank" rel="noopener">elpis.violetnetworks.xyz <span aria-hidden="true">↗</span></a>
+                </div>
+              </article>
+            </li>
+            <li class="site" data-reveal>
+              <span class="pin mono" aria-hidden="true">03</span>
+              <article class="site-card">
+                <header class="site-head mono"><span>Site 03 · Personal DNS</span><span>DoH · DoT · DoQ</span></header>
+                <h3>dns.ryukura.biz.id</h3>
+                <p>My own AdGuard Home resolver: private DNS over HTTPS, TLS and QUIC, with the ads and trackers left outside the tent.</p>
+                <div class="copy-row">
+                  <code>https://dns.ryukura.biz.id/dns-query</code>
+                  <button class="copy mono" type="button" data-copy="https://dns.ryukura.biz.id/dns-query">Copy</button>
+                </div>
+              </article>
+            </li>
+            <li class="site" data-reveal>
+              <span class="pin mono" aria-hidden="true">04</span>
+              <article class="site-card">
+                <header class="site-head mono"><span>Site 04 · Home lab</span><span>Est. 2024</span></header>
+                <h3>Ryulabs</h3>
+                <p>The lab itself: Proxmox hosts, Docker stacks, Prometheus scraping everything and Grafana turning it into something nice to look at by lantern light.</p>
+                <ul class="tags mono"><li>Proxmox</li><li>Docker</li><li>Prometheus</li><li>Grafana</li><li>IPv6</li></ul>
+              </article>
+            </li>
+            <li class="site" data-reveal>
+              <span class="pin mono" aria-hidden="true">05</span>
+              <article class="site-card">
+                <header class="site-head mono"><span>Site 05 · Uptime Kuma</span><span class="live"><i></i>Live</span></header>
+                <h3>Status page</h3>
+                <p>Uptime Kuma keeps an eye on every service. If something goes down overnight, this is where it shows up first.</p>
+                <div class="site-links">
+                  <a href="https://status.ryukura.biz.id/" target="_blank" rel="noopener">status.ryukura.biz.id <span aria-hidden="true">↗</span></a>
+                </div>
+              </article>
+            </li>
+            <li class="site" data-reveal>
+              <span class="pin mono" aria-hidden="true">06</span>
+              <article class="site-card">
+                <header class="site-head mono"><span>Site 06 · Dashboard</span><span>Pixel campfire incl.</span></header>
+                <h3>Homepage</h3>
+                <p>The dashboard of everything: DNS stats, uptime, socials, and a little pixel campfire burning in the background.</p>
+                <div class="site-links">
+                  <a href="https://ryukura.biz.id/" target="_blank" rel="noopener">ryukura.biz.id <span aria-hidden="true">↗</span></a>
+                </div>
+              </article>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ 04 RIN ░░ -->
+    <section class="section rin" id="rin" aria-labelledby="rin-title">
+      <div class="wrap">
+        <header class="rin-head">
+          <div>
+            <p class="eyebrow mono" data-reveal><span class="eyebrow-scarf" aria-hidden="true"></span>04 — Field notes: Shima Rin</p>
+            <h2 class="h2" id="rin-title" data-reveal>Patron saint of solo campers <span class="grad">(and homelabbers).</span></h2>
+          </div>
+          <div class="rin-notes" data-reveal>
+            <p>Shima Rin from <em>Yuru Camp△</em>: solo camper, bookworm, scooter rider, and certified enjoyer of quiet. She plans alone, packs light, reads the manual, and still makes it look effortless. Honestly? The ideal sysadmin.</p>
+            <ul class="traits">
+              <li><span>Solo camping</span><span class="trait-bar" style="--v:5" aria-label="5 out of 5"></span></li>
+              <li><span>Reading by the fire</span><span class="trait-bar" style="--v:5" aria-label="5 out of 5"></span></li>
+              <li><span>Scooter road trips</span><span class="trait-bar" style="--v:4" aria-label="4 out of 5"></span></li>
+              <li><span>Cup noodles at altitude</span><span class="trait-bar" style="--v:5" aria-label="5 out of 5"></span></li>
+              <li><span>Small talk <small>(improving)</small></span><span class="trait-bar" style="--v:2" aria-label="2 out of 5"></span></li>
+            </ul>
+          </div>
+        </header>
+
+        <div class="gallery" id="gallery">
+          <figure class="g g--tall" data-reveal>
+            <button type="button" class="g-btn" aria-label="Open image: Sunset ride">
+              <img src="assets/img/hero-ride.webp" width="1024" height="2220" alt="Rin riding her scooter toward the camera at dusk with Mt. Fuji behind" loading="lazy" decoding="async">
+            </button>
+            <figcaption><span class="jp">夕焼けライド</span>Sunset ride</figcaption>
+          </figure>
+          <figure class="g g--wide" data-reveal>
+            <button type="button" class="g-btn" aria-label="Open image: Lantern hours">
+              <img src="assets/img/lantern.webp" width="640" height="360" alt="Rin wrapped in a blanket by her tent at night, sipping something warm under a lantern" loading="lazy" decoding="async">
+            </button>
+            <figcaption><span class="jp">ランタンの時間</span>Lantern hours</figcaption>
+          </figure>
+          <figure class="g" data-reveal>
+            <button type="button" class="g-btn" aria-label="Open image: Curry noodles">
+              <img src="assets/img/g-noodle.webp" width="564" height="564" alt="Rin happily eating a cup of noodles" loading="lazy" decoding="async">
+            </button>
+            <figcaption><span class="jp">カレーめん</span>Curry noodles</figcaption>
+          </figure>
+          <figure class="g g--wide" data-reveal>
+            <button type="button" class="g-btn" aria-label="Open image: Snowy lake">
+              <img class="pixel" src="assets/img/pixel-snow.webp" width="480" height="270" alt="Pixel art of Rin reading by a snowy lakeside with her tent and a fishing rod" loading="lazy" decoding="async">
+            </button>
+            <figcaption><span class="jp">雪の湖</span>Snowy lake · pixel art</figcaption>
+          </figure>
+          <figure class="g g--tall" data-reveal>
+            <button type="button" class="g-btn" aria-label="Open image: Suspension bridge">
+              <img src="assets/img/g-bridge.webp" width="900" height="1275" alt="Rin with her loaded scooter on a long suspension bridge over a green lake" loading="lazy" decoding="async">
+            </button>
+            <figcaption><span class="jp">吊り橋</span>Suspension bridge</figcaption>
+          </figure>
+          <figure class="g g--wide" data-reveal>
+            <button type="button" class="g-btn" aria-label="Open image: Rainy day">
+              <img src="assets/img/g-rain.webp" width="1600" height="941" alt="Rin under a clear umbrella on a rainy grey street" loading="lazy" decoding="async">
+            </button>
+            <figcaption><span class="jp">雨の日</span>Rainy day</figcaption>
+          </figure>
+          <figure class="g" data-reveal>
+            <button type="button" class="g-btn" aria-label="Open image: Connected by the sky">
+              <img src="assets/img/g-poster.webp" width="564" height="780" alt="Yuru Camp key visual of Rin on her scooter under a wide blue sky" loading="lazy" decoding="async">
+            </button>
+            <figcaption><span class="jp">そらでつながってる</span>Connected by the sky (and IPv6)</figcaption>
+          </figure>
+          <figure class="g g--tall" data-reveal>
+            <button type="button" class="g-btn" aria-label="Open image: Winter camp">
+              <img src="assets/img/g-winter.webp" width="800" height="1225" alt="Rin bundled up in winter gear reading at a snowy campsite" loading="lazy" decoding="async">
+            </button>
+            <figcaption><span class="jp">冬キャン</span>Winter camp</figcaption>
+          </figure>
+          <figure class="g g--wide" data-reveal>
+            <button type="button" class="g-btn" aria-label="Open image: Late-night reading">
+              <img src="assets/img/g-glasses.webp" width="1600" height="916" alt="Rin with glasses and loose hair, lying back with a book" loading="lazy" decoding="async">
+            </button>
+            <figcaption><span class="jp">夜ふかし読書</span>Late-night reading</figcaption>
+          </figure>
+          <figure class="g g--wide" data-reveal>
+            <button type="button" class="g-btn" aria-label="Open image: Forest camp">
+              <img class="pixel" src="assets/img/pixel-forest.webp" width="480" height="270" alt="Pixel art of Rin sitting at her tent's entrance in a pine forest" loading="lazy" decoding="async">
+            </button>
+            <figcaption><span class="jp">森のキャンプ</span>Forest camp · pixel art</figcaption>
+          </figure>
+          <figure class="g g--tall" data-reveal>
+            <button type="button" class="g-btn" aria-label="Open image: Touring">
+              <img src="assets/img/g-cc110.webp" width="850" height="1407" alt="Rin leaning on a yellow touring motorbike, looking out over the hills" loading="lazy" decoding="async">
+            </button>
+            <figcaption><span class="jp">ツーリング</span>Touring</figcaption>
+          </figure>
+          <figure class="g g--wide" data-reveal>
+            <button type="button" class="g-btn" aria-label="Open image: The view">
+              <img src="assets/img/g-view.webp" width="1400" height="795" alt="Rin wrapped in a blanket, looking back over a lake and autumn mountains" loading="lazy" decoding="async">
+            </button>
+            <figcaption><span class="jp">絶景</span>The view</figcaption>
+          </figure>
+          <figure class="g g--tall" data-reveal>
+            <button type="button" class="g-btn" aria-label="Open image: Cold morning">
+              <img src="assets/img/g-scarf.webp" width="800" height="1509" alt="Rin in a navy coat and green scarf, breath puffing in the cold" loading="lazy" decoding="async">
+            </button>
+            <figcaption><span class="jp">さむい</span>Cold morning</figcaption>
+          </figure>
+        </div>
+        <p class="credits mono" data-reveal>Artwork belongs to its original artists. <em>Yuru Camp△</em> © あfろ・芳文社／野外活動委員会. Shared with love, not for profit.</p>
+      </div>
+    </section>
+
+    <!-- ░░ 05 SIGNALS ░░ -->
+    <section class="signals" id="signals" aria-labelledby="signals-title">
+      <div class="signals-stage">
+      <div class="scene camp-scene">
+        <div class="scene-box" id="campBox">
+          <img class="pixel" src="assets/img/pixel-campfire.webp" width="480" height="270" alt="Pixel art of Rin at night by a campfire, between her tent and her scooter" loading="lazy" decoding="async">
+          <span class="emitter" id="emitter" style="--x:63.6%;--y:85%" aria-hidden="true"></span>
+          <span class="fireglow" style="--x:63.6%;--y:85%" aria-hidden="true"></span>
+        </div>
+      </div>
+      <canvas class="embers" id="embers" aria-hidden="true"></canvas>
+      <div class="signals-fade" aria-hidden="true"></div>
+
+      <div class="wrap signals-inner">
+        <p class="eyebrow mono" data-reveal><span class="eyebrow-scarf" aria-hidden="true"></span>05 — Signals</p>
+        <h2 class="signals-title" id="signals-title" data-reveal>See you at the<br>next <span class="grad">campsite.</span></h2>
+        <p class="signals-jp jp" data-reveal lang="ja" aria-hidden="true">またね。</p>
+
+        <div class="signal-card" data-reveal>
+          <button class="chibi" id="chibi" type="button" aria-label="Light the campfire (toggles ambience sound)">
+            <img class="chibi-smoke" src="assets/img/chibi-smoke.webp" width="241" height="355" alt="" loading="lazy">
+            <img class="chibi-fire" src="assets/img/chibi-fire.webp" width="217" height="367" alt="" loading="lazy">
+          </button>
+          <ul class="signal-links">
+            <li><a href="https://github.com/ryukora" target="_blank" rel="noopener">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+              <span><b>GitHub</b><small class="mono">@ryukora</small></span><i aria-hidden="true">↗</i></a></li>
+            <li><a href="https://x.com/ryukora" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              <span><b>X / Twitter</b><small class="mono">@ryukora</small></span><i aria-hidden="true">↗</i></a></li>
+            <li><a href="https://steamcommunity.com/id/ryukora/" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 11h4M8 9v4M15 12h.01M18 10h.01"/><path d="M17.3 5H6.7a4 4 0 0 0-4 3.6C2.6 9.4 2 14.5 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.4-1.4A2 2 0 0 1 9.8 16h4.4a2 2 0 0 1 1.4.6L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.5-.6-6.6-.7-7.3A4 4 0 0 0 17.3 5z"/></svg>
+              <span><b>Steam</b><small class="mono">ryukora</small></span><i aria-hidden="true">↗</i></a></li>
+            <li><a href="https://status.ryukura.biz.id/" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              <span><b>Status page</b><small class="mono">status.ryukura.biz.id</small></span><i aria-hidden="true">↗</i></a></li>
+            <li><a href="https://ryukura.biz.id/" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
+              <span><b>Homepage</b><small class="mono">ryukura.biz.id</small></span><i aria-hidden="true">↗</i></a></li>
+            <li><a href="https://bebasid.com/" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4" stroke-linecap="round"/></svg>
+              <span><b>BEBASID</b><small class="mono">bebasid.com</small></span><i aria-hidden="true">↗</i></a></li>
+          </ul>
+        </div>
+      </div>
+      </div>
+
+      <footer class="footer wrap mono">
+        <span>© <span id="year">2026</span> Ryukura · pitched by a campfire in Depok</span>
+        <a href="#top" class="to-top">△ Back to the top</a>
+      </footer>
+    </section>
+  </main>
+
+  <!-- Rin says hi -->
+  <div class="peek" id="peek" aria-hidden="true">
+    <span class="peek-bubble jp">コンニチハ！</span>
+    <img src="assets/img/chibi-peek.webp" width="354" height="640" alt="" loading="lazy">
+  </div>
+
+  <!-- Lightbox -->
+  <dialog class="lightbox" id="lightbox" aria-label="Image viewer">
+    <figure>
+      <img id="lbImg" src="" alt="">
+      <figcaption id="lbCap"></figcaption>
+    </figure>
+    <button class="lb-btn lb-close" type="button" data-lb="close" aria-label="Close">✕</button>
+    <button class="lb-btn lb-prev" type="button" data-lb="prev" aria-label="Previous image">←</button>
+    <button class="lb-btn lb-next" type="button" data-lb="next" aria-label="Next image">→</button>
+  </dialog>
+</body>
+</html>
